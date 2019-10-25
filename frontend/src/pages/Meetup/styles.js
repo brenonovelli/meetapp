@@ -25,6 +25,8 @@ export const Button = styled.button`
   padding: 0.75rem 1.25rem;
   font-weight: bold;
   color: #fff;
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
 `;
 
 export const MeetupContent = styled.main`

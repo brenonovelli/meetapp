@@ -1,4 +1,3 @@
-import * as Yup from 'yup'; // Chama o Yup para validar os dados
 import { Op } from 'sequelize';
 import { parseISO, isBefore, startOfDay, endOfDay } from 'date-fns';
 import Meetup from '../models/Meetup';
@@ -57,22 +56,6 @@ class MeetupController {
 
   async store(req, res) {
     /**
-     * Received data schema
-     */
-    const schema = Yup.object().shape({
-      date: Yup.date().required(),
-      title: Yup.string().required(),
-      description: Yup.string().required(),
-      local: Yup.string().required(),
-      banner: Yup.number(),
-    });
-    /**
-     * Check data(req.body) received is valid.
-     */
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails.' });
-    }
-    /**
      * Check for past dates
      */
     const { date, title, description, local, banner } = req.body;
@@ -110,26 +93,6 @@ class MeetupController {
   }
 
   async update(req, res) {
-    /**
-     * Received data schema
-     */
-    const schema = Yup.object().shape({
-      id: Yup.number(),
-      date: Yup.date(),
-      title: Yup.string().min(3),
-      description: Yup.string(),
-      local: Yup.string(),
-      banner: Yup.number(),
-    });
-    /**
-     * Check data(req.body) received is valid.
-     */
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails.' });
-    }
-    /**
-     * Get utils variable for verifications
-     */
     const { id, date } = req.body;
     /**
      * Check for past dates

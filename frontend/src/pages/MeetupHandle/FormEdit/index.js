@@ -61,8 +61,6 @@ export default function FormEdit({ idMeetup }) {
     }
   }
 
-  console.tron.log(meetup);
-
   return (
     <>
       {loading && <strong>Carregando...</strong>}

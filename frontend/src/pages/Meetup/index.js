@@ -66,9 +66,13 @@ export default function Meetup({ match }) {
                   Editar
                 </Link>
 
-                <Button type="button" onClick={() => handleDeleteMeetup()}>
+                <Button
+                  type="button"
+                  disabled={meetup.past}
+                  onClick={() => handleDeleteMeetup()}
+                >
                   <MdDeleteForever size={20} />
-                  Cancelar
+                  {meetup.past ? 'Evento passado' : 'Cancelar'}
                 </Button>
               </nav>
             </aside>

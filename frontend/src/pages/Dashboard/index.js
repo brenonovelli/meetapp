@@ -119,7 +119,10 @@ export default function Dashboard() {
               )}
             </>
           ) : (
-            <p>Você ainda não tem meetups. Crie um agora.</p>
+            <p>
+              Você ainda não tem meetups.{' '}
+              <Link to="/meetups/add/">Crie um agora.</Link>
+            </p>
           )}
         </>
       )}

@@ -3,8 +3,8 @@ import User from '../models/User';
 import File from '../models/File';
 import Meetup from '../models/Meetup';
 import Registration from '../models/Registration';
-import Queue from '../../lib/Queue';
-import RegistrationMail from '../jobs/RegistrationMail';
+
+import CreateRegistrationService from '../services/CreateRegistrationService';
 
 class RegistrationController {
   async index(req, res) {
@@ -40,64 +40,16 @@ class RegistrationController {
   }
 
   async store(req, res) {
-    const user = await User.findByPk(req.userId);
-    const meetup = await Meetup.findByPk(req.params.meetupId, {
-      include: [User],
+    const registration = await CreateRegistrationService.run({
+      user_id: req.userId,
+      meetup_id: req.params.meetupId,
     });
-
-    if (!meetup) {
-      return res.status(400).json({ error: 'Meetup not found.' });
-    }
-
-    if (meetup.user_id === req.userId) {
-      return res
-        .status(400)
-        .json({ error: "Can't register to you own meetups" });
-    }
-
-    if (meetup.past) {
-      return res.status(400).json({ error: "Can't register to past meetups" });
-    }
-
-    const checkDate = await Registration.findOne({
-      where: {
-        user_id: user.id,
-      },
-      include: [
-        {
-          model: Meetup,
-          required: true,
-          where: {
-            date: meetup.date,
-          },
-        },
-      ],
-    });
-
-    if (checkDate) {
-      return res
-        .status(400)
-        .json({ error: "Can't register to two meetups at the same time" });
-    }
-
-    const registration = await Registration.create({
-      user_id: user.id,
-      meetup_id: meetup.id,
-    });
-
-    await Queue.add(RegistrationMail.key, {
-      meetup,
-      user,
-    });
-
     return res.json(registration);
   }
 
   async delete(req, res) {
     const registration = await Registration.findByPk(req.params.id);
-    /**
-     * Get utils variable for verifications
-     */
+
     const { user_id, past } = registration;
     /**
      * Check if is owner
