@@ -14,7 +14,7 @@
   `docker run --name database -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres`
 
 - Redis - Banco de dados para filas  
-  `docker run --name redisbarber -p 6379:6379 -d -t redis:alpine`
+  `docker run --name redismeetapp -p 6379:6379 -d -t redis:alpine`
 
 - Sequelize  
   `yarn sequelize db:migrate`  

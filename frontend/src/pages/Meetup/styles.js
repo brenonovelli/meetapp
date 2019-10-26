@@ -81,7 +81,7 @@ export const MeetupContent = styled.main`
     width: 100%;
   }
   p {
-    white-space: pre;
+    white-space: pre-line;
   }
   p + p {
     margin-top: 2rem;
