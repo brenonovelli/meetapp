@@ -21,6 +21,11 @@ export const Container = styled.div`
       padding: 0.75rem 1.25rem;
       border-radius: 0.25rem;
       color: white;
+      border-left: 2px solid transparent;
+      transition: border 0.3s ease-in;
+      &:focus {
+        border-left: 2px solid #f94d6a;
+      }
     }
     hr {
       border: 0;

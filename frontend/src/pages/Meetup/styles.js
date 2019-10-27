@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { darken } from 'polished';
 
 export const Container = styled.div`
-  width: 940px;
   max-width: 90vw;
+  @media (min-width: 960px) {
+    width: 940px;
+  }
   margin: 2rem auto;
   header {
     display: flex;
@@ -13,6 +15,14 @@ export const Container = styled.div`
     aside {
       nav {
         display: flex;
+      }
+    }
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      h1 {
+        margin-bottom: 1rem;
+        text-align: center;
       }
     }
   }
@@ -53,7 +63,7 @@ export const MeetupContent = styled.main`
       position: relative;
       overflow: hidden;
 
-      &:after {
+      &::after {
         content: '';
         position: absolute;
         top: 50%;
@@ -102,5 +112,55 @@ export const MeetupContent = styled.main`
     svg {
       margin-right: 0.5rem;
     }
+  }
+`;
+
+export const SubscribersList = styled.div`
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: solid 1px rgba(0, 0, 0, 0.2);
+  ul {
+    @media (min-width: 768px) {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 1rem;
+    }
+
+    li {
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      @media (max-width: 767px) {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+`;
+
+export const SubscribersListTitle = styled.h2`
+
+  position: relative;
+  padding-right: .5rem;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+
+  &::after {
+    content: '${props => props.length}';
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(100%, -50%);
+    padding: .25rem .5rem;
+    font-size: .675rem;
+    color: #fff;
+    background-color: #f94d6a;
+    border-radius: .25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;

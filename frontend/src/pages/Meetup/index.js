@@ -8,10 +8,17 @@ import { MdEdit, MdDeleteForever, MdToday, MdMyLocation } from 'react-icons/md';
 
 import api from '~/services/api';
 import history from '~/services/history';
-import { Container, Button, MeetupContent } from './styles';
+import {
+  Container,
+  Button,
+  MeetupContent,
+  SubscribersList,
+  SubscribersListTitle,
+} from './styles';
 
 export default function Meetup({ match }) {
   const [meetup, setMeetup] = useState();
+  const [subscribers, setSubscribers] = useState();
   const [loading, setLoading] = useState(false);
   const idMeetup = match.params.id;
 
@@ -19,17 +26,20 @@ export default function Meetup({ match }) {
     (async function loadMeetup() {
       setLoading(true);
       try {
-        const response = await api.get(`meetups/${idMeetup}`);
+        const meetupsResponse = await api.get(`meetups/${idMeetup}`);
+        const subscribersResponse = await api.get(`subscribers/${idMeetup}`);
+        setSubscribers(subscribersResponse.data);
 
-        const dateMeetup = parseISO(response.data.meetup.date);
+        const dateMeetup = parseISO(meetupsResponse.data.meetup.date);
 
         const formattedDate = format(dateMeetup, "dd 'de' MMMM', às' H:mm'h'", {
           locale: pt,
         });
 
-        setMeetup({ formattedDate, ...response.data.meetup });
+        setMeetup({ formattedDate, ...meetupsResponse.data.meetup });
       } catch (err) {
-        toast.error(`Não conseguimos carregar seus meetups. Tente novamente.`);
+        history.push('/dasboard');
+        toast.error(`Não foi possível carregar o meetup. Tente novamente.`);
       }
       setLoading(false);
     })();
@@ -95,6 +105,18 @@ export default function Meetup({ match }) {
               {meetup.local}
             </address>
           </footer>
+          {subscribers.length > 0 ? (
+            <SubscribersList>
+              <SubscribersListTitle length={subscribers.length}>
+                Inscritos
+              </SubscribersListTitle>
+              <ul>
+                {subscribers.map(subscriber => (
+                  <li key={subscriber.id}>{subscriber.User.name}</li>
+                ))}
+              </ul>
+            </SubscribersList>
+          ) : null}
         </MeetupContent>
       )}
     </Container>

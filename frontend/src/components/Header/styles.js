@@ -5,8 +5,10 @@ export const Container = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 export const Content = styled.div`
-  width: 940px;
   max-width: 90vw;
+  @media (min-width: 960px) {
+    width: 940px;
+  }
   padding: 1.625rem 0;
   margin: 0 auto;
   display: flex;

@@ -24,10 +24,14 @@ export function* registration({ payload }) {
     Alert.alert('Sucesso.', 'Inscrição feita com sucesso');
     yield put(populateRegistrationsRequest());
   } catch (err) {
-    Alert.alert(
-      'Falha na inscrição.',
-      'Houve um erro na inscrição. Tente novamente.'
-    );
+    if (err.response.data.error.message) {
+      Alert.alert('Falha na inscrição.', `${err.response.data.error.message}`);
+    } else {
+      Alert.alert(
+        'Falha na inscrição.',
+        'Houve um erro na inscrição. Tente novamente.'
+      );
+    }
   }
 }
 

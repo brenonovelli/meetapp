@@ -8,6 +8,7 @@ import FileController from './app/controllers/FileController';
 import MeetupController from './app/controllers/MeetupController';
 import RegistrationController from './app/controllers/RegistrationController';
 import OrganizationController from './app/controllers/OrganizationController';
+import SubscribersController from './app/controllers/SubscribersController';
 
 import validateUserStore from './app/validators/UserStore';
 import validateUserUpdate from './app/validators/UserUpdate';
@@ -32,6 +33,7 @@ routes.delete('/meetups/:id', MeetupController.delete);
 routes.get('/meetups/:id', MeetupController.show);
 
 routes.get('/organization/', OrganizationController.index);
+routes.get('/subscribers/:meetupId', SubscribersController.index);
 
 routes.get('/registrations/', RegistrationController.index);
 routes.delete('/registrations/:id', RegistrationController.delete);
